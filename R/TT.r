@@ -1,36 +1,23 @@
-library(tidyr)
-library(dplyr)
-library(magrittr)
-library(purrr)
-library(DT)
-library(htmltools)
-library(stringr)
-library(data.tree)
-library(htmlwidgets)
-library(readr)
-library(data.tree)
-library(magrittr)
-library(dplyr)
-library(tidyr)
 
-
-
-#' @title 
+#' @title
 #' Display tree structured data using datatable widget
-#' 
+#'
 #' @description
 #' Extension of datatable widget, allowing display of data.tree objects.
 #' All arguments of the data.tree become columns and each node is a row.
 #' Adds column with buttons allowing folding and unfolding the levels.
-#' 
-#' @details 
+#'
+#' @details
 #' Package consist of treetable function that convert data.tree object to dataframe and JS function
 #' called after creating the table that is responisble for some formating and folding/unfolding level rows.
 #' Color formating is done by kolorWheel JS script done by Zalka Erno
 #' e-mail: ern0@linkbroker.hu
 #' <http://linkbroker.hu/stuff/kolorwheel.js/>
-#' 
-#' @usage 
+#'
+#' @authors@R Michal Zielaskowski \email{michal.zielaskowski@gmail.com}
+#' @references \url{https://github.com/zielaskowski/tree-table}
+#'
+#' @usage
 #' treetable(data, color = "#FFFFFF", colnames = list(), ...)
 #' @param data
 #' data.tree object. \code{treetable} will extract all argumnets in alphabetical order - these will be a columns.
@@ -39,23 +26,27 @@ library(tidyr)
 #' base color (hue) to color the table. Each level will differ with saturation and luminosity.
 #' @param colnames
 #' if \code{list()} of characters provided, arguments of data.tree (columns) will be renamed.
-#' If \code{vector()} provided, columns will be renamed as for list input, aditionally columns 
+#' If \code{vector()} provided, columns will be renamed as for list input, aditionally columns
 #' will be reordered according to vector level after renaming.
-#' @examples 
+#' @examples
 #' data("org")
-#' colnames <- factor(c("org", dt_path$attributesAll), 
-#'                    levels =  c("org", colnames(db_path)[2:8]))
-#' treetable(org, color="#FFFFFF", collnames=colnames)
-#' @seealso 
+#' data("col_order")
+#' colnames <- factor(c("org",org$attributesAll),
+#'                    levels =  col_order)
+#' treetable(org, color="#FFFFFF", colnames=colnames)
+#' @seealso
 #' \code{\link{DT}}
 #' \code{\link{data.tree}}
 #' @export
+#' @importFrom magrittr %>%
+#' @importFrom magrittr %<>%
+#' @import data.tree
 
 
 treetable <- function(data,
                       color='#FFFFFF',
                       options = list(), class = "display",
-                      callback = JS("return table;"),
+                      callback = htmlwidgets::JS("return table;"),
                       rownames = FALSE, colnames = list(), container,
                       caption = NULL, filter = "none",
                       escape = TRUE, style = "default",
@@ -79,7 +70,7 @@ treetable <- function(data,
     else TT_button <- "|&mdash;"
 
     atrs <- node$attributesAll
-    atrVal <- c(map_chr(atrs, ~ node[[.x]]))
+    atrVal <- c(purrr::map_chr(atrs, ~ node[[.x]]))
 
     db <- c(node$path %>% paste0(collapse = "/"),
             TT_button,
@@ -95,7 +86,7 @@ treetable <- function(data,
   dt <- tryCatch(data$isRoot,
                  warning = function(e){
                    warning("Provided data is not in data.tree format. Creating standard datatable.")
-                   datatable(data,
+                   DT::datatable(data,
                              options = options, class = class,
                              callback = callback,
                              rownames = rownames, colnames = colnames,
@@ -115,11 +106,11 @@ treetable <- function(data,
   #extract data.frame from data.tree
   dt_data <- data$Get(tree2DF)
   dt_data <- apply(dt_data,2,list) %>%
-    map(~.x) %>%
+    purrr::map(~.x) %>%
     unlist(dt_data, recursive = FALSE) %>%
-    bind_rows()
+    dplyr::bind_rows()
   # initialize with only top level
-  dt_data %<>% mutate(TT_on_off=ifelse(TT_on_off!=1,0,1))
+  dt_data %<>% dplyr::mutate(TT_on_off=ifelse(TT_on_off!=1,0,1))
 
 
   # rownames always jump in as first so we need to shift by one
@@ -127,15 +118,15 @@ treetable <- function(data,
   else shift<-0
 
   # set width of button column based on max no of levels
-  max_lev <- dt_path$Get(function(node)node$level) %>% max()
+  max_lev <- data$Get(function(node)node$level) %>% max()
 
   # arrange columns if collnames!=list()
   if(!missing(colnames))
   {
-    dt_data %<>% rename_with(function(x){
+    dt_data %<>% dplyr::rename_with(function(x){
       c("TT_path","lev","TT_on_off", colnames %>% as.character())
-    } )
-    dt_data %<>% select("TT_path","lev","TT_on_off",all_of(colnames %>% sort()))
+    })
+    dt_data %<>% dplyr::select("TT_path","lev","TT_on_off",all_of(colnames %>% sort()))
   }
 
   #warn when overriding options
@@ -145,7 +136,7 @@ treetable <- function(data,
   if(escape) warning("option 'escape' will be overwritten with FALSE", call. = FALSE)
   if(callback[1] != "return table;") warning("option 'callback' not possible (yet)", call. = FALSE)
   #shift column options and protect classNames
-  options$columnDefs %>% map(function(x){
+  options$columnDefs %>% purrr::map(function(x){
     if(is.numeric(x$targets)) x$targets <- x$targets + 3
     if(!is.null(x$className) && x$className %in% c("button-col","path-col","onoff-col")) {
       warning(paste0("renamed protected className: ", x$className,". Renamed to X_", x$className), call. = FALSE)
@@ -154,7 +145,7 @@ treetable <- function(data,
 
   #hardcoded options
   escape = FALSE
-  callback = JS("lev(table)")
+  callback = htmlwidgets::JS("lev(table)")
 
   options$columnDefs <- c(options$columnDefs,list(
     list(className = 'button-col', targets = 1 +shift), #TT_button
@@ -168,7 +159,7 @@ treetable <- function(data,
 
   options$color <- color
 
-  dt <- datatable(dt_data,
+  dt <- DT::datatable(dt_data,
                   options = options, class = class,
                   callback = callback,
                   rownames = rownames, colnames = colnames(dt_data),
@@ -182,18 +173,16 @@ treetable <- function(data,
                   selection = selection,
                   extensions = extensions, plugins = plugins)
 
-
-
-
-
   ## add JS scripts####
+  #scripts are in "sysdata.rda" as kw, lev
+  #"sysdata.rda" is loaded silently and avilable...just like this
   #####################
   ###kolorWHEEL########
   #credits to:
   #Zalka Erno
   #e-mail: ern0@linkbroker.hu
   #http://linkbroker.hu/stuff/kolorwheel.js/
-  load("sysdata.rda")
+
   dt <- htmlwidgets::appendContent(dt,kw,lev)
 
   return (dt)

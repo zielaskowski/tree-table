@@ -30,9 +30,13 @@ e-mail: ern0@linkbroker.hu
 }
 \examples{
 data("org")
-colnames <- factor(c("org", dt_path$attributesAll), 
-                   levels =  c("org", colnames(db_path)[2:8]))
-treetable(org, color="#FFFFFF", collnames=colnames)
+data("col_order")
+colnames <- factor(c("org",org$attributesAll),
+                   levels =  col_order)
+treetable(org, color="#FFFFFF", colnames=colnames)
+}
+\references{
+\url{https://github.com/zielaskowski/tree-table}
 }
 \seealso{
 \code{\link{DT}}

@@ -8,3 +8,11 @@
 #' atribute name is following month of the year \code{Jan-2021, Feb-2021....}
 #' each attribute value is some number, parents value is cumulative sum of children
 "org"
+
+#' @title
+#' Example data for TT package
+#' @description
+#' character vector to demonstrate ordering option
+#' @format
+#' character vector
+"col_order"

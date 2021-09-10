@@ -9,11 +9,9 @@ library(usethis)
 source(file="./data-raw/org.r")
 source(file="./data-raw/js.r")
 
+
+usethis::use_mit_license("Michal Zielaskowski")
+
 devtools::document()
 
-usethis::use_description(fields=list(
-  LazyData=TRUE
-
-))
-
-
+devtools::check()

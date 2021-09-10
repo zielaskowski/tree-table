@@ -12,7 +12,8 @@ org <- read_csv(file="./data-raw/org.csv") %>%
   select(-year,-month) %>%
   pivot_wider(names_from = data, values_from = value, values_fill = list(value=0))
 
+col_order <- c("org",names(org[2:length(org)]))
 org <- FromDataFrameTable(org,pathName = "org_path", pathDelimiter = "/")
 
 
-usethis::use_data(org, overwrite = TRUE)
+usethis::use_data(org, col_order, overwrite = TRUE)
