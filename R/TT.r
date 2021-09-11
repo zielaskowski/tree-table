@@ -1,4 +1,3 @@
-
 #' @title
 #' Display tree structured data using datatable widget
 #'
@@ -49,7 +48,7 @@ treetable <- function(data,
                       callback = htmlwidgets::JS("return table;"),
                       rownames = FALSE, colnames = list(), container,
                       caption = NULL, filter = "none",
-                      escape = TRUE, style = "default",
+                      escape = FALSE, style = "default",
                       width = NULL, height = NULL,
                       elementId = NULL,
                       fillContainer = getOption("DT.fillContainer", NULL),
@@ -142,6 +141,7 @@ treetable <- function(data,
       warning(paste0("renamed protected className: ", x$className,". Renamed to X_", x$className), call. = FALSE)
     }
   })
+
 
   #hardcoded options
   escape = FALSE

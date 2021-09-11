@@ -1,0 +1,35 @@
+---
+title: "dev"
+output: 
+  html_document:
+    self_contained: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(DT)
+library(dplyr)
+library(magrittr)
+library(purrr)
+library(data.tree)
+library(htmlwidgets)
+
+source("../R/TT.r", local = FALSE)
+source("../R/TTformat.r", local = FALSE)
+load("../R/sysdata.rda")
+load("../data/org.rda")
+load("../data/col_order.rda")
+rm("lev")
+lev <-""
+```
+
+<script src="../data-raw/TT_lev.js"></script>
+
+```{r echo=FALSE}
+treetable(org, colnames = col_order) %>% formatRound(columns = c(1:11), digits = 0)
+```
+
+
+
+

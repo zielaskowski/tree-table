@@ -1,6 +1,7 @@
-library(cli)
 library(devtools)
 library(usethis)
+
+# for JS development use ./dev/dev.Rmd
 
 # may not be obvious: javascript file is in data-raw folder (./data-raw/lev.js)
 # if edited, will be automatically minified during build.

@@ -29,5 +29,4 @@ rm(list=ls())
 kw<-tags$script(readLines("./data-raw/kolorWheel-min.js", warn = FALSE) %>% paste0(collapse = "") %>% HTML)
 lev<-tags$script(readLines("./data-raw/TT_lev-min.js",warn = FALSE)%>% paste0(collapse = "") %>% HTML)
 
-usethis::use_data(kw, overwrite = TRUE, internal = TRUE)
-usethis::use_data(lev, overwrite = TRUE, internal = TRUE)
+usethis::use_data(kw, lev, overwrite = TRUE, internal = TRUE)
