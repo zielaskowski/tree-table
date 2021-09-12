@@ -1,7 +1,7 @@
 #' @title
 #' Format table columns
 #' @description
-#' \code{\link[DT]{formatCurrency}}
+#' see \code{\link[DT]{formatCurrency}} in DT package
 #' @export
 formatCurrency <- function (table, columns, currency = "$", interval = 3, mark = ",",
                             digits = 2, dec.mark = getOption("OutDec"), before = TRUE)
@@ -11,20 +11,14 @@ formatCurrency <- function (table, columns, currency = "$", interval = 3, mark =
                 mark, digits, dec.mark, before)
 }
 
-#' @title
-#' Format table columns
-#' @description
-#' \code{\link[DT]{formatDate}}
+#' @rdname formatCurrency
 #' @export
 formatDate <- function (table, columns, method = "toDateString", params = NULL) {
   columns <- columns +3
   DT::formatDate(table, columns, method , params)
 }
 
-#' @title
-#' Format table columns
-#' @description
-#' \code{\link[DT]{formatPercentage}}
+#' @rdname formatCurrency
 #' @export
 formatPercentage <- function (table, columns, digits = 0, interval = 3, mark = ",",
                               dec.mark = getOption("OutDec")) {
@@ -32,10 +26,7 @@ formatPercentage <- function (table, columns, digits = 0, interval = 3, mark = "
   DT::formatPercentage(table, columns, digits, interval, mark, dec.mark)
 }
 
-#' @title
-#' Format table columns
-#' @description
-#' \code{\link[DT]{formatRound}}
+#' @rdname formatCurrency
 #' @export
 formatRound <- function(table, columns, digits = 2, interval = 3, mark = ",",
                          dec.mark = getOption("OutDec")){
@@ -43,10 +34,7 @@ formatRound <- function(table, columns, digits = 2, interval = 3, mark = ",",
   DT::formatRound(table, columns, digits, interval, mark, dec.mark)
 }
 
-#' @title
-#' Format table columns
-#' @description
-#' \code{\link[DT]{formatSignif}}
+#' @rdname formatCurrency
 #' @export
 formatSignif <- function(table, columns, digits = 2, interval = 3, mark = ",",
                          dec.mark = getOption("OutDec")){
@@ -54,20 +42,14 @@ formatSignif <- function(table, columns, digits = 2, interval = 3, mark = ",",
   DT::formatSignif(table, columns, digits, interval, mark, dec.mark)
 }
 
-#' @title
-#' Format table columns
-#' @description
-#' \code{\link[DT]{formatString}}
+#' @rdname formatCurrency
 #' @export
 formatString <- function(table, columns, prefix = "", suffix = ""){
   columns <- columns +3
   DT::formatString(table, columns, prefix, suffix)
 }
 
-#' @title
-#' Format table columns
-#' @description
-#' \code{\link[DT]{formatStyle}}
+#' @rdname formatCurrency
 #' @export
 formatStyle <- function(table, columns, valueColumns = columns, target = c("cell", "row"),
                         fontWeight = NULL, color = NULL, backgroundColor = NULL,

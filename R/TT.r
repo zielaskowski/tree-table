@@ -1,32 +1,30 @@
-#' @title
-#' Display tree structured data using datatable widget
+#' @title Display tree structured data using datatable widget
 #'
-#' @description
-#' Extension of datatable widget, allowing display of data.tree objects.
-#' All arguments of the data.tree become columns and each node is a row.
-#' Adds column with buttons allowing folding and unfolding the levels.
+#' @description Extension of datatable widget, allowing display of data.tree
+#' objects. All arguments of the data.tree become columns and each node is a
+#' row. Adds column with buttons allowing folding and unfolding the levels.
 #'
-#' @details
-#' Package consist of treetable function that convert data.tree object to dataframe and JS function
-#' called after creating the table that is responisble for some formating and folding/unfolding level rows.
-#' Color formating is done by kolorWheel JS script done by Zalka Erno
-#' e-mail: ern0@linkbroker.hu
-#' <http://linkbroker.hu/stuff/kolorwheel.js/>
+#' @details Package consist of treetable function that convert data.tree object
+#' to dataframe and JS function called after creating the table that is
+#' responisble for some formating and folding/unfolding level rows.
 #'
-#' @authors@R Michal Zielaskowski \email{michal.zielaskowski@gmail.com}
+#' Color formating is done by kolorWheel JS script done by Zalka Erno\cr
+#'  e-mail: ern0[at]linkbroker.hu\cr
+#'  <http://linkbroker.hu/stuff/kolorwheel.js/>
+#'
+#' @authors@R Michal Zielaskowski \email{michal.zielaskowski@@gmail.com}
 #' @references \url{https://github.com/zielaskowski/tree-table}
 #'
-#' @usage
-#' treetable(data, color = "#FFFFFF", colnames = list(), ...)
-#' @param data
-#' data.tree object. \code{treetable} will extract all argumnets in alphabetical order - these will be a columns.
-#' For renaming and ordering of the columnes see colnames.
-#' @param color
-#' base color (hue) to color the table. Each level will differ with saturation and luminosity.
-#' @param colnames
-#' if \code{list()} of characters provided, arguments of data.tree (columns) will be renamed.
-#' If \code{vector()} provided, columns will be renamed as for list input, aditionally columns
-#' will be reordered according to vector level after renaming.
+#' @usage treetable(data, color = "#FFFFFF", colnames = list(), ...)
+#' @param data data.tree object. \code{treetable} will extract all argumnets in
+#'   alphabetical order - these will be a columns. For renaming and ordering of
+#'   the columnes see colnames.
+#' @param color base color (hue) to color the table. Each level will differ with
+#'   saturation and luminosity.
+#' @param colnames if \code{list()} of characters provided, arguments of
+#'   data.tree (columns) will be renamed. If \code{vector()} provided, columns
+#'   will be renamed as for list input, aditionally columns will be reordered
+#'   according to vector level after renaming.
 #' @examples
 #' data("org")
 #' data("col_order")
@@ -34,7 +32,7 @@
 #'                    levels =  col_order)
 #' treetable(org, color="#FFFFFF", colnames=colnames)
 #' @seealso
-#' \code{\link{DT}}
+#' \code{\link{DT}}\cr
 #' \code{\link{data.tree}}
 #' @export
 #' @importFrom magrittr %>%

@@ -2,6 +2,12 @@
 % Please edit documentation in R/TTformat.r
 \name{formatCurrency}
 \alias{formatCurrency}
+\alias{formatDate}
+\alias{formatPercentage}
+\alias{formatRound}
+\alias{formatSignif}
+\alias{formatString}
+\alias{formatStyle}
 \title{Format table columns}
 \usage{
 formatCurrency(
@@ -14,7 +20,50 @@ formatCurrency(
   dec.mark = getOption("OutDec"),
   before = TRUE
 )
+
+formatDate(table, columns, method = "toDateString", params = NULL)
+
+formatPercentage(
+  table,
+  columns,
+  digits = 0,
+  interval = 3,
+  mark = ",",
+  dec.mark = getOption("OutDec")
+)
+
+formatRound(
+  table,
+  columns,
+  digits = 2,
+  interval = 3,
+  mark = ",",
+  dec.mark = getOption("OutDec")
+)
+
+formatSignif(
+  table,
+  columns,
+  digits = 2,
+  interval = 3,
+  mark = ",",
+  dec.mark = getOption("OutDec")
+)
+
+formatString(table, columns, prefix = "", suffix = "")
+
+formatStyle(
+  table,
+  columns,
+  valueColumns = columns,
+  target = c("cell", "row"),
+  fontWeight = NULL,
+  color = NULL,
+  backgroundColor = NULL,
+  background = NULL,
+  ...
+)
 }
 \description{
-\code{\link[DT]{formatCurrency}}
+see \code{\link[DT]{formatCurrency}} in DT package
 }

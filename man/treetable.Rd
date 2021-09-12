@@ -7,25 +7,30 @@
 treetable(data, color = "#FFFFFF", colnames = list(), ...)
 }
 \arguments{
-\item{data}{data.tree object. \code{treetable} will extract all argumnets in alphabetical order - these will be a columns.
-For renaming and ordering of the columnes see colnames.}
+\item{data}{data.tree object. \code{treetable} will extract all argumnets in
+alphabetical order - these will be a columns. For renaming and ordering of
+the columnes see colnames.}
 
-\item{color}{base color (hue) to color the table. Each level will differ with saturation and luminosity.}
+\item{color}{base color (hue) to color the table. Each level will differ with
+saturation and luminosity.}
 
-\item{colnames}{if \code{list()} of characters provided, arguments of data.tree (columns) will be renamed.
-If \code{vector()} provided, columns will be renamed as for list input, aditionally columns
-will be reordered according to vector level after renaming.}
+\item{colnames}{if \code{list()} of characters provided, arguments of
+data.tree (columns) will be renamed. If \code{vector()} provided, columns
+will be renamed as for list input, aditionally columns will be reordered
+according to vector level after renaming.}
 }
 \description{
-Extension of datatable widget, allowing display of data.tree objects.
-All arguments of the data.tree become columns and each node is a row.
-Adds column with buttons allowing folding and unfolding the levels.
+Extension of datatable widget, allowing display of data.tree
+objects. All arguments of the data.tree become columns and each node is a
+row. Adds column with buttons allowing folding and unfolding the levels.
 }
 \details{
-Package consist of treetable function that convert data.tree object to dataframe and JS function
-called after creating the table that is responisble for some formating and folding/unfolding level rows.
-Color formating is done by kolorWheel JS script done by Zalka Erno
-e-mail: ern0@linkbroker.hu
+Package consist of treetable function that convert data.tree object
+to dataframe and JS function called after creating the table that is
+responisble for some formating and folding/unfolding level rows.
+
+Color formating is done by kolorWheel JS script done by Zalka Erno\cr
+e-mail: ern0\link{at}linkbroker.hu\cr
 \url{http://linkbroker.hu/stuff/kolorwheel.js/}
 }
 \examples{
@@ -39,6 +44,6 @@ treetable(org, color="#FFFFFF", colnames=colnames)
 \url{https://github.com/zielaskowski/tree-table}
 }
 \seealso{
-\code{\link{DT}}
+\code{\link{DT}}\cr
 \code{\link{data.tree}}
 }
