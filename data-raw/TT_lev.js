@@ -10,7 +10,7 @@ function lev(table) {
 
     //coloring, pointer and indentation
     let widgetId = table.tables().nodes().to$().closest("div.datatables").attr("id");
-    let d = JSON.parse($("script[data-for=" + widgetId + "]").text());
+    let d = JSON.parse($("script[data-for=" + widgetId + "][type='application/json']").text());
     let lev = table
         .column(pathCol)
         .data()

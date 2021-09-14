@@ -44,7 +44,7 @@
 
 
 treetable <- function(data,
-                      color='#FFFFFF',
+                      color='#0177A5',
                       options = list(), class = "display",
                       callback = htmlwidgets::JS("return table;"),
                       rownames = FALSE, colnames = list(), container,

@@ -7,6 +7,7 @@ library(dplyr)
 
 ## code to prepare `org` dataset
 #import data
+print("preparing example date...")
 org <- read_csv(file="./data-raw/org.csv") %>%
   mutate(data=paste0(year,"-",month)) %>%
   select(-year,-month) %>%

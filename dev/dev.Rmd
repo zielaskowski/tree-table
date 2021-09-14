@@ -1,5 +1,5 @@
 ---
-title: "dev"
+title: "treetable"
 output: 
   html_document:
     self_contained: FALSE
@@ -27,7 +27,8 @@ lev <-""
 <script src="../data-raw/TT_lev.js"></script>
 
 ```{r echo=FALSE}
-treetable(org, colnames = col_order) %>% formatRound(columns = c(1:11), digits = 0)
+#treetable(org, colnames = col_order) %>% formatRound(columns = c(2:11), digits = 0)
+treetable(org)
 ```
 
 

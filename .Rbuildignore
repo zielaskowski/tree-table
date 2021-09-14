@@ -4,3 +4,4 @@
 ^.*\.Rproj$
 ^LICENSE\.md$
 ^dev$
+^build.r$
