@@ -4,7 +4,7 @@
 \alias{treetable}
 \title{Display tree structured data using datatable widget}
 \usage{
-treetable(data, color = "#FFFFFF", colnames = list(), ...)
+treetable(data, color = "#FFFFFF", colnames = (list() \ vector()), ...)
 }
 \arguments{
 \item{data}{data.tree object. \code{treetable} will extract all argumnets in
@@ -18,19 +18,23 @@ saturation and luminosity.}
 data.tree (columns) will be renamed. If \code{vector()} provided, columns
 will be renamed as for list input, aditionally columns will be reordered
 according to vector level after renaming.}
+
+\item{...}{\link[DT]{datatable} parameters}
 }
 \description{
-Extension of datatable widget, allowing display of data.tree
+Wrapper of datatable widget, allowing display of data.tree
 objects. All arguments of the data.tree become columns and each node is a
 row. Adds column with buttons allowing folding and unfolding the levels.
 }
 \details{
-Package consist of treetable function that convert data.tree object
-to dataframe and JS function called after creating the table that is
-responisble for some formating and folding/unfolding level rows.
+Package consist of treetable function (wrapper f datatable) that
+convert data.tree object to dataframe and JS callback function called
+after creating the table, responisble for formating and folding/unfolding level rows.\cr
+Package also include DT::format... functions wrappers working exactly as originals, but
+necessery to protect special (helper) columns used by JS callback function for formatting.
 
 Color formating is done by kolorWheel JS script done by Zalka Erno\cr
-e-mail: ern0\link{at}linkbroker.hu\cr
+e-mail: ern0[at]linkbroker.hu\cr
 \url{http://linkbroker.hu/stuff/kolorwheel.js/}
 }
 \examples{

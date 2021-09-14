@@ -65,5 +65,6 @@ formatStyle(
 )
 }
 \description{
-see \code{\link[DT]{formatCurrency}} in DT package
+see format... family of functions in DT package: \code{\link[DT]{formatCurrency}}\cr
+thee wrappers are not affecting behaviour of originla format... functions
 }

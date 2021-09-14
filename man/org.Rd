@@ -5,8 +5,8 @@
 \alias{org}
 \title{Example data for TT package}
 \format{
-data.tree object. Each node has 7 attributes:
-atribute name is following month of the year \code{Jan-2021, Feb-2021....}
+data.tree object. Each node has 7 attributes so resulting table will be:\cr
+atribute name and months of the year (\code{Jan-2021, Feb-2021....})\cr
 each attribute value is some number, parents value is cumulative sum of children
 }
 \usage{
