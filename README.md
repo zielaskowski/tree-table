@@ -34,5 +34,10 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 library(TT)
 ## basic example code
+data("org")
+data("col_order")
+colnames <- factor(c("org",org$attributesAll),
+                    levels =  col_order)
+treetable(org, color="#FFFFFF", colnames=colnames)
 ```
 
