@@ -6,26 +6,26 @@
 #'
 #' @details Package consist of treetable function (wrapper f datatable) that
 #' convert data.tree object to dataframe and JS callback function called
-#' after creating the table, responisble for formating and folding/unfolding level rows.\cr
+#' after creating the table, responsible for formatting and folding/unfolding level rows.\cr
 #' Package also include DT::format... functions wrappers working exactly as originals, but
-#' necessery to protect special (helper) columns used by JS callback function for formatting.
+#' necessary to protect special (helper) columns used by JS callback function for formatting.
 #'
-#' Color formating is done by kolorWheel JS script done by Zalka Erno\cr
+#' Color formatting is done by kolorWheel JS script done by Zalka Erno\cr
 #'  e-mail: ern0\[at\]linkbroker.hu\cr
 #'  <http://linkbroker.hu/stuff/kolorwheel.js/>
 #'
 #' @authors@R Michal Zielaskowski \email{michal.zielaskowski@@gmail.com}
 #' @references \url{https://github.com/zielaskowski/tree-table}
 #'
-#' @usage treetable(data, color = "#FFFFFF", colnames = (list() \ vector()), ...)
-#' @param data data.tree object. \code{treetable} will extract all argumnets in
+#' @usage treetable(data, color = "#0177A5", colnames = (list() | vector()), ...)
+#' @param data data.tree object. \code{treetable} will extract all arguments in
 #'   alphabetical order - these will be a columns. For renaming and ordering of
-#'   the columnes see colnames.
+#'   the columns see colnames.
 #' @param color base color (hue) to color the table. Each level will differ with
 #'   saturation and luminosity.
 #' @param colnames if \code{list()} of characters provided, arguments of
 #'   data.tree (columns) will be renamed. If \code{vector()} provided, columns
-#'   will be renamed as for list input, aditionally columns will be reordered
+#'   will be renamed as for list input, additionally columns will be reordered
 #'   according to vector level after renaming.
 #' @param ... \link[DT]{datatable} parameters
 #' @examples
@@ -35,7 +35,7 @@
 #'                    levels =  col_order)
 #' treetable(org, color="#FFFFFF", colnames=colnames)
 #' @seealso
-#' \code{\link{DT}}\cr
+#' \code{\link{datatable}}\cr
 #' \code{\link{data.tree}}
 #' @export
 #' @importFrom magrittr %>%
