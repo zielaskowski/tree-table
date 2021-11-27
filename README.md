@@ -1,5 +1,6 @@
 
 ## NOT RELEASED TO CRAN YET
+install directly from [github]
 
 # TT
 
@@ -29,6 +30,11 @@ You can install the released version of TT from [CRAN](https://CRAN.R-project.or
 
 ``` r
 install.packages("TT")
+```
+
+or directly from github:
+``` r
+devtools::install_github(zielaskowski/tree-table)
 ```
 
 ## Example
