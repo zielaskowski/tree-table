@@ -43,6 +43,11 @@ data("col_order")
 colnames <- factor(c("org",org$attributesAll),
                    levels =  col_order)
 treetable(org, color="#FFFFFF", colnames=colnames)
+
+# still datatable works as expected when data.frame provided
+treetable(data.frame(
+     date = seq(as.Date("2015-01-01"), by = "day", length.out = 5), x = 1:5))
+
 }
 \references{
 \url{https://github.com/zielaskowski/tree-table}

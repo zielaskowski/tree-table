@@ -34,6 +34,11 @@
 #' colnames <- factor(c("org",org$attributesAll),
 #'                    levels =  col_order)
 #' treetable(org, color="#FFFFFF", colnames=colnames)
+#'
+#' # still datatable works as expected when data.frame provided
+#' treetable(data.frame(
+#'      date = seq(as.Date("2015-01-01"), by = "day", length.out = 5), x = 1:5))
+#'
 #' @seealso
 #' \code{\link{datatable}}\cr
 #' \code{\link{data.tree}}
@@ -45,17 +50,7 @@
 
 treetable <- function(data,
                       color='#0177A5',
-                      options = list(), class = "display",
-                      callback = htmlwidgets::JS("return table;"),
-                      rownames = FALSE, colnames = list(), container,
-                      caption = NULL, filter = "none",
-                      escape = FALSE, style = "default",
-                      width = NULL, height = NULL,
-                      elementId = NULL,
-                      fillContainer = getOption("DT.fillContainer", NULL),
-                      autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
-                      selection = c("multiple", "single", "none"),
-                      extensions = list(), plugins = NULL, editable = FALSE)
+                      colnames = list(), ...)
 {
   #INPUT:
   #   data      data.tree object
@@ -83,25 +78,15 @@ treetable <- function(data,
   }
 
   # if data is not in data.tree format, return standard datatable
-  dt <- tryCatch(data$isRoot,
-                 warning = function(e){
+  if(!"Node" %in% class(data)){
                    warning("Provided data is not in data.tree format. Creating standard datatable.")
-                   DT::datatable(data,
-                             options = options, class = class,
-                             callback = callback,
-                             rownames = rownames, colnames = colnames,
-                             container = container, caption = caption,
-                             filter = filter,
-                             escape = escape, style = style,
-                             width = width, height = height,
-                             elementId = elementId,
-                             fillContainer = fillContainer,
-                             autoHideNavigation = autoHideNavigation,
-                             selection = selection,
-                             extensions = extensions, plugins = plugins)
-                 }
-  )
-  if(!is.logical(dt)) return(dt)
+                   dt <- DT::datatable(data,
+                             colnames = colnames,
+                             ...)
+                 } else dt <- NULL
+  if(!is.null(dt)) return(dt)
+
+  arg <- list(...)
 
   #extract data.frame from data.tree
   dt_data <- data$Get(tree2DF)
@@ -112,31 +97,32 @@ treetable <- function(data,
   # initialize with only top level
   dt_data %<>% dplyr::mutate(TT_on_off=ifelse(TT_on_off!=1,0,1))
 
-
   # rownames always jump in as first so we need to shift by one
-  if(rownames) shift <- 1
+  # default behavior is to display rownames (when arg is missing or TRUE)
+  if(is.null(arg$rownames)) arg$rownames <- TRUE
+  if(arg$rownames) shift <- 1
   else shift<-0
 
   # set width of button column based on max no of levels
   max_lev <- data$Get(function(node)node$level) %>% max()
 
   # arrange columns if collnames!=list()
-  if(!missing(colnames))
+  if(!is.null(arg$colnames))
   {
     dt_data %<>% dplyr::rename_with(function(x){
-      c("TT_path","lev","TT_on_off", colnames %>% as.character())
+      c("TT_path","lev","TT_on_off", arg$colnames %>% as.character())
     })
-    dt_data %<>% dplyr::select("TT_path","lev","TT_on_off",all_of(colnames %>% sort()))
+    dt_data %<>% dplyr::select("TT_path","lev","TT_on_off",all_of(arg$colnames %>% sort()))
   }
 
   #warn when overriding options
-  if(any(options$columnDefs %>% unlist() %>% names() %in% "orderable")){
+  if(any(arg$options$columnDefs %>% unlist %>% names %in% "orderable")){
     warning("option 'orderable' will be overwritten with FALSE", call. = FALSE)
   }
-  if(escape) warning("option 'escape' will be overwritten with FALSE", call. = FALSE)
-  if(callback[1] != "return table;") warning("option 'callback' not possible (yet)", call. = FALSE)
+  if(!is.null(arg$escape)) warning("option 'escape' will be overwritten with FALSE", call. = FALSE)
+  if(!is.null(arg$callback)) warning("option 'callback' not possible (yet)", call. = FALSE)
   #shift column options and protect classNames
-  options$columnDefs %>% purrr::map(function(x){
+  arg$options$columnDefs %>% purrr::map(function(x){
     if(is.numeric(x$targets)) x$targets <- x$targets + 3
     if(!is.null(x$className) && x$className %in% c("button-col","path-col","onoff-col")) {
       warning(paste0("renamed protected className: ", x$className,". Renamed to X_", x$className), call. = FALSE)
@@ -145,10 +131,10 @@ treetable <- function(data,
 
 
   #hardcoded options
-  escape = FALSE
-  callback = htmlwidgets::JS("lev(table)")
+  arg$escape = FALSE
+  arg$callback = htmlwidgets::JS("lev(table)")
 
-  options$columnDefs <- c(options$columnDefs,list(
+  arg$options$columnDefs <- c(arg$options$columnDefs,list(
     list(className = 'button-col', targets = 1 +shift), #TT_button
     list(className = 'path-col', targets = 0 + shift), #TT_path
     list(className = 'onoff-col', targets= 2 + shift), #TT_on_off
@@ -158,21 +144,10 @@ treetable <- function(data,
     list(width = paste0(max_lev*20,'px'),targets = 1 +shift)
   ))
 
-  options$color <- color
-
-  dt <- DT::datatable(dt_data,
-                  options = options, class = class,
-                  callback = callback,
-                  rownames = rownames, colnames = colnames(dt_data),
-                  container = container, caption = caption,
-                  filter = filter,
-                  escape = escape, style = style,
-                  width = width, height = height,
-                  elementId = elementId,
-                  fillContainer = fillContainer,
-                  autoHideNavigation = autoHideNavigation,
-                  selection = selection,
-                  extensions = extensions, plugins = plugins)
+  arg$options$color <- color
+  arg$data <- dt_data
+  arg$colnames <- colnames
+  dt <- do.call(DT::datatable, arg)
 
   ## add JS scripts####
   #scripts are in "sysdata.rda" as kw, lev

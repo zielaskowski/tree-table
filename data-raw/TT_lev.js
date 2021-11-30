@@ -47,8 +47,7 @@ function lev(table) {
 
     //add filtering
     $.fn.dataTable.ext.search.push(function (set, d, i) {
-        if (d[onoffCol] == true) return true;
-        return false;
+        return d[onoffCol] == 1;
     });
 
     //start with only top level
