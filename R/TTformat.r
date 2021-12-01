@@ -1,21 +1,24 @@
 #' @title
 #' Format table columns
 #' @description
-#' see format... family of functions in DT package: \code{\link[DT]{formatCurrency}}\cr
-#' thee wrappers are not affecting behaviour of originla format... functions
+#' Simply wrapper on format... family functions of DT package.
+#' For details see: \code{\link[DT]{formatCurrency}}\cr
+#' The wrappers are not affecting behavior of original format... functions
+#' @inheritParams DT::formatCurrency
+
 #' @export
 formatCurrency <- function (table, columns, currency = "$", interval = 3, mark = ",",
                             digits = 2, dec.mark = getOption("OutDec"), before = TRUE)
                   {
-  columns <- columns +3
-  DT::formatCurrency(table, columns, tplCurrency, currency, interval,
-                mark, digits, dec.mark, before)
+  columns <- incremenCol(columns)
+  DT::formatCurrency(table, columns, currency, interval,
+                      mark, digits, dec.mark, before)
 }
 
 #' @rdname formatCurrency
 #' @export
 formatDate <- function (table, columns, method = "toDateString", params = NULL) {
-  columns <- columns +3
+  columns <- incremenCol(columns)
   DT::formatDate(table, columns, method , params)
 }
 
@@ -23,7 +26,7 @@ formatDate <- function (table, columns, method = "toDateString", params = NULL) 
 #' @export
 formatPercentage <- function (table, columns, digits = 0, interval = 3, mark = ",",
                               dec.mark = getOption("OutDec")) {
-  columns <- columns +3
+  columns <- incremenCol(columns)
   DT::formatPercentage(table, columns, digits, interval, mark, dec.mark)
 }
 
@@ -31,7 +34,7 @@ formatPercentage <- function (table, columns, digits = 0, interval = 3, mark = "
 #' @export
 formatRound <- function(table, columns, digits = 2, interval = 3, mark = ",",
                          dec.mark = getOption("OutDec")){
-  columns <- columns +3
+  columns <- incremenCol(columns)
   DT::formatRound(table, columns, digits, interval, mark, dec.mark)
 }
 
@@ -39,14 +42,14 @@ formatRound <- function(table, columns, digits = 2, interval = 3, mark = ",",
 #' @export
 formatSignif <- function(table, columns, digits = 2, interval = 3, mark = ",",
                          dec.mark = getOption("OutDec")){
-  columns <- columns +3
+  columns <- incremenCol(columns)
   DT::formatSignif(table, columns, digits, interval, mark, dec.mark)
 }
 
 #' @rdname formatCurrency
 #' @export
 formatString <- function(table, columns, prefix = "", suffix = ""){
-  columns <- columns +3
+  columns <- incremenCol(columns)
   DT::formatString(table, columns, prefix, suffix)
 }
 
@@ -55,7 +58,13 @@ formatString <- function(table, columns, prefix = "", suffix = ""){
 formatStyle <- function(table, columns, valueColumns = columns, target = c("cell", "row"),
                         fontWeight = NULL, color = NULL, backgroundColor = NULL,
                         background = NULL, ...){
-  columns <- columns +3
-  valueColumns <- valueColumns +3
+  columns <- incremenCol(columns)
+  valueColumns <- incremenCol(valueColumns)
   DT::formatStyle(table, columns, valueColumns, target, fontWeight, color, backgroundColor, background, ...)
+}
+
+#' @noRd
+incremenCol <- function(cols){
+  if (class(cols) == "numeric") return( cols + 3)
+  return (cols)
 }

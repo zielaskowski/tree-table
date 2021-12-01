@@ -4,7 +4,7 @@
 \alias{treetable}
 \title{Display tree structured data using datatable widget}
 \usage{
-treetable(data, color = "#0177A5", colnames = (list() | vector()), ...)
+treetable(data, color = "#0177A5", colnames = list(), ...)
 }
 \arguments{
 \item{data}{data.tree object. \code{treetable} will extract all arguments in
@@ -27,11 +27,14 @@ objects. All arguments of the data.tree become columns and each node is a
 row. Adds column with buttons allowing folding and unfolding the levels.
 }
 \details{
-Package consist of treetable function (wrapper f datatable) that
+Package consist of treetable function (wrapper of datatable) that
 convert data.tree object to dataframe and JS callback function called
-after creating the table, responsible for formatting and folding/unfolding level rows.\cr
-Package also include DT::format... functions wrappers working exactly as originals, but
-necessary to protect special (helper) columns used by JS callback function for formatting.
+after creating the table. Treetable function ads hidden columns used by JS
+for formatting and folding/unfolding level rows. Hidden columns shall be
+completely transparent for user \cr
+Package also include DT::format... functions wrappers, which are working
+exactly as originals, but are necessary to protect special (helper) columns
+used by JS callback function for formatting.
 
 Color formatting is done by kolorWheel JS script done by Zalka Erno\cr
 e-mail: ern0[at]linkbroker.hu\cr

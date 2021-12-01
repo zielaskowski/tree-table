@@ -19,6 +19,7 @@ library(rstudioapi)
 setwd(dirname(getActiveDocumentContext()$path))
 
 source(file="../R/TT.r")
+source(file="../R/TTformat.r")
 
 load(file="../data/col_order.rda")
 load(file="../data/org.rda")
@@ -28,35 +29,58 @@ colnames <- factor(c("org",org$attributesAll),
                    levels =  col_order)
 ```
 
-```{r echo=FALSE}
-# std DT example
-# dates
+### standard DT::datatable
+```{r std_DT_example, echo=FALSE}
 treetable(data.frame(
   date = seq(as.Date("2015-01-01"), by = "day", length.out = 5), x = 1:5
 ))
 ```
 
+### standard DT::datatable formatting
+```{r std_DT_formatting, echo=FALSE}
+# apply CSS styles to columns
+treetable(iris) %>%
+  formatStyle('Sepal.Length', fontWeight = styleInterval(5, c('bold', 'weight'))) %>%
+  formatStyle('Sepal.Width',
+    color = styleInterval(3.4, c('red', 'white')),
+    backgroundColor = styleInterval(3.4, c('yellow', 'gray'))
+  )
+```
 
 <script src="../data-raw/kolorWheel-min.js"></script>
 <script src="../data-raw/TT_lev.js"></script>
 
-
-```{r echo=FALSE}
-#treetable(org, colnames = col_order) %>% formatRound(columns = c(2:11), digits = 0)
-res <- treetable(org, color="#FFFFFF", colnames=colnames)
-
+### treetable with default arguments
+```{r std_TT_example, echo=FALSE}
+res <- treetable(org,
+                 color="#FFFFFF",
+                 colnames=colnames,
+                 rownames=FALSE)
 # remove appended js with files so easier debugging
 res$append <- ""
+res
+```
 
+### treetable minimum (no args)
+```{r minimum_example, echo=FALSE}
+res<-treetable(org)
+res$append <- ""
 res
 ```
 
 
-# ```{r}
-# #minimum example
-# treetable(org)
-# ```
-
+### treetable formatting
+```{r formatting_examples, echo=FALSE}
+res<-treetable(org, colnames = col_order, rownames=FALSE) %>% 
+              formatRound(columns = 2, digits = 0) %>% 
+              formatCurrency(columns = 3, currency = "$", digits=2, before = TRUE) %>% 
+              formatPercentage(columns = 4, digits = 0) %>% 
+              formatSignif(columns = 6, digits = 3, interval = 2) %>% 
+              formatString(columns = 1, prefix = "org_") %>% 
+              formatStyle(columns = c(7,8), valueColumns = 7, backgroundColor = styleInterval(300,c('yellow','gray')))
+res$append <- ""
+res
+```
 
 
 

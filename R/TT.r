@@ -4,11 +4,14 @@
 #' objects. All arguments of the data.tree become columns and each node is a
 #' row. Adds column with buttons allowing folding and unfolding the levels.
 #'
-#' @details Package consist of treetable function (wrapper f datatable) that
+#' @details Package consist of treetable function (wrapper of datatable) that
 #' convert data.tree object to dataframe and JS callback function called
-#' after creating the table, responsible for formatting and folding/unfolding level rows.\cr
-#' Package also include DT::format... functions wrappers working exactly as originals, but
-#' necessary to protect special (helper) columns used by JS callback function for formatting.
+#' after creating the table. Treetable function ads hidden columns used by JS
+#' for formatting and folding/unfolding level rows. Hidden columns shall be
+#' completely transparent for user \cr
+#' Package also include DT::format... functions wrappers, which are working
+#' exactly as originals, but are necessary to protect special (helper) columns
+#' used by JS callback function for formatting.
 #'
 #' Color formatting is done by kolorWheel JS script done by Zalka Erno\cr
 #'  e-mail: ern0\[at\]linkbroker.hu\cr
@@ -17,7 +20,7 @@
 #' @authors@R Michal Zielaskowski \email{michal.zielaskowski@@gmail.com}
 #' @references \url{https://github.com/zielaskowski/tree-table}
 #'
-#' @usage treetable(data, color = "#0177A5", colnames = (list() | vector()), ...)
+#' @usage treetable(data, color = "#0177A5", colnames = list(), ...)
 #' @param data data.tree object. \code{treetable} will extract all arguments in
 #'   alphabetical order - these will be a columns. For renaming and ordering of
 #'   the columns see colnames.
@@ -80,11 +83,12 @@ treetable <- function(data,
   # if data is not in data.tree format, return standard datatable
   if(!"Node" %in% class(data)){
                    warning("Provided data is not in data.tree format. Creating standard datatable.")
+                   if(purrr::is_empty(colnames)) colnames <- colnames(data)
                    dt <- DT::datatable(data,
                              colnames = colnames,
                              ...)
-                 } else dt <- NULL
-  if(!is.null(dt)) return(dt)
+                   return(dt)
+  }
 
   arg <- list(...)
 
@@ -95,11 +99,11 @@ treetable <- function(data,
     unlist(dt_data, recursive = FALSE) %>%
     dplyr::bind_rows()
   # initialize with only top level
-  dt_data %<>% dplyr::mutate(TT_on_off=ifelse(TT_on_off!=1,0,1))
+  dt_data %<>% dplyr::mutate("TT_on_off" = dplyr::if_else(TT_on_off != 1,0,1))
 
   # rownames always jump in as first so we need to shift by one
   # default behavior is to display rownames (when arg is missing or TRUE)
-  if(is.null(arg$rownames)) arg$rownames <- TRUE
+  if(purrr::is_empty(arg$rownames)) arg$rownames <- TRUE
   if(arg$rownames) shift <- 1
   else shift<-0
 
@@ -107,28 +111,27 @@ treetable <- function(data,
   max_lev <- data$Get(function(node)node$level) %>% max()
 
   # arrange columns if collnames!=list()
-  if(!is.null(arg$colnames))
+  if(!purrr::is_empty(colnames))
   {
     dt_data %<>% dplyr::rename_with(function(x){
-      c("TT_path","lev","TT_on_off", arg$colnames %>% as.character())
+      c("TT_path","lev","TT_on_off", colnames %>% as.character())
     })
-    dt_data %<>% dplyr::select("TT_path","lev","TT_on_off",all_of(arg$colnames %>% sort()))
+    dt_data %<>% dplyr::select("TT_path","lev","TT_on_off",dplyr::all_of(colnames %>% sort()))
   }
 
   #warn when overriding options
   if(any(arg$options$columnDefs %>% unlist %>% names %in% "orderable")){
     warning("option 'orderable' will be overwritten with FALSE", call. = FALSE)
   }
-  if(!is.null(arg$escape)) warning("option 'escape' will be overwritten with FALSE", call. = FALSE)
-  if(!is.null(arg$callback)) warning("option 'callback' not possible (yet)", call. = FALSE)
+  if(!purrr::is_empty(arg$escape)) warning("option 'escape' will be overwritten with FALSE", call. = FALSE)
+  if(!purrr::is_empty(arg$callback)) warning("option 'callback' not possible (yet)", call. = FALSE)
   #shift column options and protect classNames
   arg$options$columnDefs %>% purrr::map(function(x){
     if(is.numeric(x$targets)) x$targets <- x$targets + 3
-    if(!is.null(x$className) && x$className %in% c("button-col","path-col","onoff-col")) {
+    if(!purrr::is_empty(x$className) && x$className %in% c("button-col","path-col","onoff-col")) {
       warning(paste0("renamed protected className: ", x$className,". Renamed to X_", x$className), call. = FALSE)
     }
   })
-
 
   #hardcoded options
   arg$escape = FALSE
@@ -146,7 +149,7 @@ treetable <- function(data,
 
   arg$options$color <- color
   arg$data <- dt_data
-  arg$colnames <- colnames
+  arg$colnames <- colnames(dt_data)
   dt <- do.call(DT::datatable, arg)
 
   ## add JS scripts####

@@ -11,14 +11,14 @@ function lev(table) {
     //coloring, pointer and indentation
     let widgetId = table.tables().nodes().to$().closest("div.datatables").attr("id");
     let d = JSON.parse($("script[data-for=" + widgetId + "][type='application/json']").text());
-    let lev = table
+    let levRow = table
         .column(pathCol)
         .data()
         .toArray()
         .map(function (x) {
             return x.match(/\//g)?.length ?? 0;
         });
-    let levMax = Math.max(...lev);
+    let levMax = Math.max(...levRow);
 
     let colorBase = new KolorWheel(d.x.options.color);
     colorBase.l = 100;
@@ -30,25 +30,30 @@ function lev(table) {
         let buttonCl = table.cell(id, buttonCol);
         //color
         nds.css({
-            backgroundColor: colorTarget.get(lev[id]).getHex(),
+            backgroundColor: colorTarget.get(levRow[id]).getHex(),
         });
-        if (colorTarget.get(lev[id]).isDark()) nds.css({ color: "white" });
+        if (colorTarget.get(levRow[id]).isDark()) nds.css({ color: "white" });
 
         //indentation
         buttonCl
             .nodes()
             .to$()
             .css({
-                textIndent: lev[id] * 10 + "%",
+                textIndent: levRow[id] * 10 + "%",
             });
         //cursor pointer
         if (buttonCl.data() != leaf) buttonCl.nodes().to$().css({ cursor: "pointer" });
     });
 
     //add filtering
-    $.fn.dataTable.ext.search.push(function (set, d, i) {
+    //filtering is global so we need only one function
+    //to know where is controling column, we create attribute
+    table.nodes().to$().attr('onoffCol', onoffCol);
+    $.fn.dataTable.ext.search[0] = function (set, d, i) {
+        let onoffCol = set.nTable.attributes['onoffCol']?.value ?? -1;
+        if (onoffCol == -1) return;
         return d[onoffCol] == 1;
-    });
+    };
 
     //start with only top level
     table.draw();
