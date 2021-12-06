@@ -16,3 +16,5 @@ usethis::use_mit_license("Michal Zielaskowski")
 devtools::document()
 
 devtools::check()
+
+devtools::build()

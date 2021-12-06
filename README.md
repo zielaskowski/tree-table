@@ -14,9 +14,9 @@ Adds column with buttons allowing folding and unfolding the levels.
 ![example](./dev/example.png?raw=true)
 
 Package consist of treetable function that convert data.tree object to dataframe and JS function
-called after creating the table that is responisble for some formating and folding/unfolding level rows.
+called after creating the table that is responsible for some formatting and folding/unfolding level rows.
 
-Color formating is done by kolorWheel JS script done by Zalka Erno
+Color formatting is done by kolorWheel JS script done by Zalka Erno
 
 e-mail: ern0@linkbroker.hu
 
