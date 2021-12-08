@@ -6,3 +6,4 @@
 ^dev$
 ^build.r$
 ^README.md$
+^.Rd2pdf*
