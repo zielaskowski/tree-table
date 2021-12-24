@@ -1,5 +1,5 @@
 Package: TT
-Title: Display Tree Structured (data.tree) Data using Datatable Widget (DT)
+Title: Display Tree Structured Data using Datatable Widget (DT)
 Version: 0.92
 Authors@R: 
     person(given = "Michal",

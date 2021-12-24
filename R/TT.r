@@ -99,7 +99,7 @@ treetable <- function(data,
     unlist(dt_data, recursive = FALSE) %>%
     dplyr::bind_rows()
   # initialize with only top level
-  dt_data %<>% dplyr::mutate("TT_on_off" = dplyr::if_else(TT_on_off != 1,0,1))
+  dt_data[dt_data$TT_on_off != 1, "TT_on_off"] <- "0"
 
   # rownames always jump in as first so we need to shift by one
   # default behavior is to display rownames (when arg is missing or TRUE)
