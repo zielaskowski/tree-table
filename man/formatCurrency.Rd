@@ -122,8 +122,11 @@ you will have to use backticks to quote the names, e.g. \code{`font-size` =
 dash-separated names (e.g. \code{'fontWeight'} will be converted to
 \code{'font-weight'} internally)}
 }
+\value{
+Return formatted 'HTML' widget of 'DataTables'
+}
 \description{
-Simply wrapper on format... family functions of DT package.
+Simply wrapper on format... family functions of 'DT' package.
 For details see: \code{\link[DT]{formatCurrency}}\cr
 The wrappers are not affecting behavior of original format... functions
 }

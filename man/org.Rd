@@ -5,15 +5,18 @@
 \alias{org}
 \title{Example data for TT package}
 \format{
-data.tree object. Each node has 7 attributes so resulting table will be:\cr
-atribute name and months of the year (\code{Jan-2021, Feb-2021....})\cr
-each attribute value is some number, parents value is cumulative sum of children
+'data.tree' object with 7 attributes in each node, value of the leaf attributes is some random number, parents value is cumulative sum of children
+The attributes are:\cr
+\itemize{
+\item name of the node\cr
+\item six consecutive months of the year (\code{Jan-2021, Feb-2021....})\cr
+}
 }
 \usage{
 org
 }
 \description{
-data.tree object that can be used as an example to see how table widget looks like.
-Each node of data.tree store attributes (dates) with some numbers.
+'data.tree' object that can be used as an example to see how table widget looks like.
+Each node of 'data.tree' store attributes (dates) with some numbers.
 }
 \keyword{datasets}

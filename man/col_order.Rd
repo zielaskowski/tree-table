@@ -11,6 +11,6 @@ character vector
 col_order
 }
 \description{
-character vector to demonstrate ordering option. See Example of \link{treetable}
+character vector to demonstrate ordering option. See example of \link{treetable}
 }
 \keyword{datasets}

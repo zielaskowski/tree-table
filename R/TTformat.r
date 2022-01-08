@@ -1,11 +1,11 @@
 #' @title
 #' Format table columns
 #' @description
-#' Simply wrapper on format... family functions of DT package.
+#' Simply wrapper on format... family functions of 'DT' package.
 #' For details see: \code{\link[DT]{formatCurrency}}\cr
 #' The wrappers are not affecting behavior of original format... functions
 #' @inheritParams DT::formatCurrency
-
+#' @return Return formatted 'HTML' widget of 'DataTables'
 #' @export
 formatCurrency <- function (table, columns, currency = "$", interval = 3, mark = ",",
                             digits = 2, dec.mark = getOption("OutDec"), before = TRUE)

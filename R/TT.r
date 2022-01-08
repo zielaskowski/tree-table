@@ -1,19 +1,19 @@
-#' @title Display tree structured data using datatable widget
+#' @title Display tree structured data using 'datatable' widget
 #'
-#' @description Wrapper of datatable widget, allowing display of data.tree
-#' objects. All arguments of the data.tree become columns and each node is a
+#' @description Wrapper of 'datatable' widget, allowing display of 'data.tree'
+#' objects. All arguments of the 'data.tree' become columns and each node is a
 #' row. Adds column with buttons allowing folding and unfolding the levels.
 #'
-#' @details Package consist of treetable function (wrapper of datatable) that
-#' convert data.tree object to dataframe and JS callback function called
-#' after creating the table. Treetable function ads hidden columns used by JS
+#' @details Package consist of treetable function (wrapper of 'datatable') that
+#' convert data.tree object to 'dataframe' and 'JS' callback function called
+#' after creating the table. Treetable function ads hidden columns used by 'JS'
 #' for formatting and folding/unfolding level rows. Hidden columns shall be
 #' completely transparent for user \cr
-#' Package also include DT::format... functions wrappers, which are working
+#' Package also include 'DT::format...' functions wrappers, which are working
 #' exactly as originals, but are necessary to protect special (helper) columns
-#' used by JS callback function for formatting.
+#' used by 'JS' callback function for formatting.
 #'
-#' Color formatting is done by kolorWheel JS script done by Zalka Erno\cr
+#' Color formatting is done by 'kolorWheel' 'JS' script done by Zalka Erno\cr
 #'  e-mail: ern0\[at\]linkbroker.hu\cr
 #'  <http://linkbroker.hu/stuff/kolorwheel.js/>
 #'
@@ -31,6 +31,7 @@
 #'   will be renamed as for list input, additionally columns will be reordered
 #'   according to vector level after renaming.
 #' @param ... \link[DT]{datatable} parameters
+#' @return Return 'HTML' widget using the 'JavaScript' library 'DataTables'
 #' @examples
 #' data("org")
 #' data("col_order")
