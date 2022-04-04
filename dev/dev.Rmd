@@ -83,5 +83,30 @@ res
 ```
 
 
+### data.tree with random empty attributes
+```{r empty_args, echo=FALSE}
+lenAttr <- length(org$attributes)
+org$Do(function(node){
+  nAttr <- runif(1,min=1,max=lenAttr) # number of attributes to delete
+  selAttr <- runif(nAttr,min=1,max=lenAttr) # selected attributes to delete
+  rmAttr <- node$attributes[selAttr] %>% unique
+  map(rmAttr, ~node$RemoveAttribute(.x))
+})
+
+
+res<-treetable(org, colnames=colnames)
+res$append <- ""
+res
+
+load(file="../data/org.rda")
+```
+
+### data.tree with empty first node
+```{r empty_fst_row, echo=FALSE}
+orrg <- Node$new()
+orrg$AddChildNode(org)
+treetable(orrg, colnames=colnames)
+
+```
 
 

@@ -64,19 +64,23 @@ treetable <- function(data,
   # First 3 columns are protected and hidden: TT_path, TT_button, TT_on_off,
   # warn about styling: some of options will be overridden
 
-  tree2DF <- function(node){
+  tree2DF <- function(node, allAttrs){
     if(!(node$isLeaf)) TT_button <- "&oplus;"
     else TT_button <- "|&mdash;"
 
-    atrs <- node$attributesAll
-    atrVal <- c(purrr::map_chr(atrs, ~ node[[.x]]))
+    attrs <- node$attributes
+    attrVal <- c(purrr::map_chr(allAttrs,
+                                function(at){
+                                    if (at %in% attrs) return(node[[at]])
+                                    else return("")
+                                  }))
 
     db <- c(node$path %>% paste0(collapse = "/"),
             TT_button,
             node$level,
             node$name,
-            atrVal)
-    names(db) <- c("TT_path", "TT_button", "TT_on_off", "name",atrs)
+            attrVal)
+    names(db) <- c("TT_path", "TT_button", "TT_on_off", "name",allAttrs)
 
     return(db)
   }
@@ -93,8 +97,10 @@ treetable <- function(data,
 
   arg <- list(...)
 
-  #extract data.frame from data.tree
-  dt_data <- data$Get(tree2DF)
+  # extract data.frame from data.tree
+  # nodes with missing attributes fill with ""
+  allAttrs <- data$attributesAll # attributesAll is very time costly, better use once
+  dt_data <- data$Get(tree2DF, allAttrs)
   dt_data <- apply(dt_data,2,list) %>%
     purrr::map(~.x) %>%
     unlist(dt_data, recursive = FALSE) %>%

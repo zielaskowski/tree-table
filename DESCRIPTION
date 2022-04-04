@@ -1,6 +1,6 @@
 Package: TT
 Title: Display Tree Structured Data using Datatable Widget (DT)
-Version: 0.92
+Version: 0.98
 Authors@R: 
     person(given = "Michal",
            family = "Zielaskowski",
