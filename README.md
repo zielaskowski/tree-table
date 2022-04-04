@@ -50,4 +50,4 @@ colnames <- factor(c("org",org$attributesAll),
                     levels =  col_order)
 treetable(org, color="#FFFFFF", colnames=colnames)
 ```
-
+For more examples see html file in /dev folder
